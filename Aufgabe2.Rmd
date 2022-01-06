@@ -1,0 +1,93 @@
+---
+title: "hausarbeit2"
+author: "CharlotteGerard"
+date: "02/01/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Aufgabe 2
+
+### a)
+
+```{r toss_coin}
+toss_coin <- function(prob) {
+  coin <- c("Kopf", "Zahl")
+  sample(coin, size = 1, prob = c(0.5, 0.5))
+}
+```
+
+### b) using sample()
+
+```{r toss_coins, eval=FALSE}
+toss_coin <- function(prob) {
+  coin <- c("Kopf", "Zahl")
+  sample(coin, size = 1000, replace = TRUE, prob = c(0.5,0.5)) 
+}
+```
+
+### b) using for() iteration 
+```{r toss_coins}
+toss_coin <- function(prob) {
+  coin <- c("Kopf", "Zahl")
+  outcome <- NULL
+  for(i in 1:1000) {
+    outcome[i] <- sample(coin, size = 1, replace = TRUE)
+  }
+  table(outcome)
+}
+```
+
+### b) I have not managed to do this exercise, which is why I am using the first four lines of the given output to create a data frame to work with for the subsequent exercises. 
+
+```{r data_frame}
+df_toss_coin <- data.frame("iteration" = 1:4, "outcome" = c("Kopf", "Kopf", "Kopf", "Zahl"), "number_heads" = 1:4, "mean" = c(1,1,1,0.75))
+```
+
+
+### c) line graph based on data frame from b), with µ == 0.5. 
+
+```{r}
+ggplot(df_toss_coin, aes(x = iteration, y = mean - 0.5)) +
+  geom_line() +
+  geom_line(aes(y=0), linetype = "dotted") +
+  theme_bw() +
+  labs(x = "Iteration", y = "Difference between actual and expected frequency of Heads", title = "Mean value development") +
+  theme(axis.title.y = element_text(size = 6))
+```
+
+### d) Expected number of experiments with outcome "Head" == 500.  
+
+```{r}
+ggplot(df_toss_coin, aes(x = iteration, y = number_heads - 500)) +
+  geom_line() +
+  geom_line(aes(y=0), linetype = "dotted") +
+  theme_bw() +
+  labs(x = "Iteration", y = "Difference between actual and expected number of Head outcomes", title = "Development of number of experiments with Head outcome") +
+  theme(axis.title.y = element_text(size = 5), plot.title = element_text(size = 9))
+```
+
+### e) Do experiment n times and visualize it. 
+
+```{r}
+visualize_coin_toss_experiment <- function(prob, n = 1000) {
+  coin <- c("Kopf", "Zahl")
+  sample(coin, size = n, replace = TRUE, prob = c(0.5,0.5)) 
+}
+```
+
+### f)
+
+```{r}
+visualize_coin_toss_experiment <- function(prob, n = 1000) {
+  coin <- c("Kopf", "Zahl")
+  sample(coin, size = n, replace = TRUE, prob = c(0.6,0.5)) 
+}
+```
+
+
